@@ -2,10 +2,8 @@
 pragma solidity ^0.8.29;
 
 contract Bitmap {
-    // Custom error for invalid slot
     error SlotOutOfRange();
 
-    // Single uint256 to store all 32 bytes
     uint256 private bitmap;
 
     // Store a byte in a specific slot (0-31)
@@ -15,10 +13,10 @@ contract Bitmap {
         // Calculate bit position
         uint256 position = slot * 8;
         
-        // Create a mask to clear the existing byte
+        // Create a mask to clear existing byte
         uint256 mask = ~(uint256(0xFF) << position);
         
-        // Clear the existing byte and set the new value
+        // Clear the existing byte & set the new value
         bitmap = (bitmap & mask) | (uint256(value) << position);
     }
 
@@ -27,7 +25,7 @@ contract Bitmap {
         uint8[] memory values = new uint8[](32);
         
         for(uint8 i = 0; i < 32; i++) {
-            // Shift right to get to the desired byte and mask with 0xFF
+            // Shift right to get to the desired byte & mask with 0xFF
             values[i] = uint8((bitmap >> (i * 8)) & 0xFF);
         }
         
@@ -38,7 +36,7 @@ contract Bitmap {
     function getByte(uint8 slot) public view returns (uint8) {
         if (slot >= 32) revert SlotOutOfRange();
         
-        // Shift right to get to the desired byte and mask with 0xFF
+        // Shift right to get to the desired byte & mask with 0xFF
         return uint8((bitmap >> (slot * 8)) & 0xFF);
     }
 }
